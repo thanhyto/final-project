@@ -9,23 +9,46 @@ let runner = Runner.create({wireframes:false});
 let world = engine.world;
 
 let box = [];
-
-
+let ground1;
+let ground2;
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
     
     rectMode(CENTER);
     Runner.run(runner,engine);
-    let options = {
-        isStatic: true,
-    }
-    ground = Bodies.rectangle(windowWidth/2, windowHeight, windowWidth, 40, options);
-    World.add(world, ground);
-    
-    
+    ground1 = new Boundary(windowWidth/2, windowHeight, windowWidth, 100);
+    ground2 = new Boundary(windowWidth/2, windowHeight/2, windowWidth/2, 40)
 }
 
+//Boundary
+function Boundary(x,y,w,h){
+    this.w = w;
+    this.h = h;
+
+    let options = {
+        isStatic:true
+    }
+    //Create a boundary centered x,y - width w - height h
+    this.body = Bodies.rectangle(x,y,w,h, options);
+    //Add to physical world
+    World.add(world, this.body);
+
+    this.show = function() {
+        let pos = this.body.position;
+        let angle = this.body.angle;
+
+        push();
+        translate(pos.x, pos.y);
+        rectMode(CENTER);
+        noStroke();
+        fill(0);
+        rect(0, 0, w,h);
+        pop();
+    }
+}
+
+//Boxes
 function Boxes(x,y,w,h){
     this.w = w;
     this.h = h;
@@ -40,7 +63,7 @@ function Boxes(x,y,w,h){
     //Add to physical world
     World.add(world,this.body);
     let c = color(random(255), random(255), random(255));
-    this.show = function () {
+    this.show = function() {
         let pos = this.body.position;
         let angle = this.body.angle;
         push();
@@ -66,10 +89,8 @@ function draw(){
         //Called show() since declare as a function
         box[i].show();
     }
-
-    //Ground
-    noStroke();
-    fill(0);
-    rect(windowWidth/2, windowHeight, windowWidth, 40);
+    //Draw the ground
+    ground1.show();
+    ground2.show();
+   
 }
-
