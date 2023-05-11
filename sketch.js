@@ -25,21 +25,24 @@ function setup(){
 function Boundary(x,y,w,h){
     this.w = w;
     this.h = h;
-
     let options = {
-        isStatic:true
+        isStatic:true,
+        angle: PI/4,
+        isSensor: false
     }
     //Create a boundary centered x,y - width w - height h
     this.body = Bodies.rectangle(x,y,w,h, options);
+    this.body.angle = PI/4;
+
     //Add to physical world
     World.add(world, this.body);
 
     this.show = function() {
         let pos = this.body.position;
         let angle = this.body.angle;
-
         push();
         translate(pos.x, pos.y);
+        rotate(angle);
         rectMode(CENTER);
         noStroke();
         fill(0);
@@ -79,7 +82,7 @@ function Boxes(x,y,w,h){
 }
 
 function mousePressed(){
-    box.push(new Boxes(mouseX,mouseY,80,80));
+    box.push(new Boxes(mouseX,mouseY,random(20,50),random(20,50)));
 }
 
 function draw(){
