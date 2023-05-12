@@ -21,6 +21,7 @@ function setup(){
     // ground2 = new Boundary(windowWidth/2, windowHeight/2, windowWidth/2, 40)
     boundary.push(new Boundary(windowWidth*0.4, windowHeight*0.3, windowWidth*0.35, 70, PI/8));
     boundary.push(new Boundary(windowWidth*0.6, windowHeight*0.7, windowWidth*0.35, 70, -PI/8));
+    boundary.push(new Boundary(windowWidth/2, windowHeight, windowWidth, 100,0))
 }
 
 //Boundary
