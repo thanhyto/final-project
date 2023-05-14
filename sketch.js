@@ -14,14 +14,14 @@ let circle = [];
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
-    
+    frameRate(60);
     rectMode(CENTER);
     Runner.run(runner,engine);
     // ground1 = new Boundary(windowWidth/2, windowHeight, windowWidth, 100);
     // ground2 = new Boundary(windowWidth/2, windowHeight/2, windowWidth/2, 40)
     boundary.push(new Boundary(windowWidth*0.4, windowHeight*0.3, windowWidth*0.35, 70, PI/8));
     boundary.push(new Boundary(windowWidth*0.6, windowHeight*0.7, windowWidth*0.35, 70, -PI/8));
-    boundary.push(new Boundary(windowWidth/2, windowHeight, windowWidth, 100,0))
+    // boundary.push(new Boundary(windowWidth/2, windowHeight, windowWidth, 100,0))
 }
 
 //Boundary
@@ -83,6 +83,11 @@ function Boxes(x,y,w,h){
         rect(0,0,this.w,this.h);
         pop();
     }
+
+    this.isOffScreen = function (){
+        let pos = this.body.position;     
+        return (pos.x > windowWidth + 100);
+    }
 }
 
 //Circles
@@ -104,6 +109,14 @@ function Circle(x,y,r){
         ellipse(0,0,this.r*2);
         pop();
     }
+
+    this.isOffScreen = function () {
+        let pos = this.body.position;
+        return (pos.y > height + 100);
+    }
+    this.removeFromWorld = function () {
+        World.remove(world, this.body);
+    }
 }
 
 function mousePressed(){
@@ -118,6 +131,9 @@ function mousePressed(){
 
 function draw(){
     background(220);
+    // box.push(new Boxes(windowWidth/2,100,random(20,50),random(20,50)));
+    circle.push(new Circle(windowWidth/2, 100, random(10,20)));
+    
     // Loops through the array of boxes and show the objects
     for(let i = 0; i < box.length; i++){
         //Called show() since declare as a function
@@ -126,11 +142,17 @@ function draw(){
     // Loops through array of circle
     for(let i = 0; i < circle.length;i++){
         circle[i].show();
+        if(circle[i].isOffScreen()){
+            circle[i].removeFromWorld();
+            circle.splice(i,1);
+            i--;
+        }
     }
     //Same thing -> Render all boundaries
     for(let i = 0; i<boundary.length;i++){
         boundary[i].show();
     }
+    console.log(circle.length, world.bodies.length);
     
     //Draw the ground
     // ground1.show();
