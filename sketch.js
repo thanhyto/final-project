@@ -95,6 +95,7 @@ function Circle(x,y,r){
     this.r=r;
     let options = {
         friction:0,
+        restitution:1.5,
     }
     this.body = Bodies.circle(x,y, this.r,options);
     World.add(world, this.body);
@@ -132,7 +133,7 @@ function mousePressed(){
 function draw(){
     background(220);
     // box.push(new Boxes(windowWidth/2,100,random(20,50),random(20,50)));
-    circle.push(new Circle(windowWidth/2, 100, random(10,20)));
+    circle.push(new Circle(random(windowWidth), 0, random(5,10)));
     
     // Loops through the array of boxes and show the objects
     for(let i = 0; i < box.length; i++){
