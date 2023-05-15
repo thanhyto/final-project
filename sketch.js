@@ -6,7 +6,8 @@ let Engine = Matter.Engine,
 
 let engine = Engine.create();
 //Gravity
-engine.world.gravity.y = 0.15;
+engine.world.gravity.y = 0.055;
+// engine.world.gravity.x = 0.055;
 
 let runner = Runner.create({wireframes:false});
 let world = engine.world;
@@ -86,10 +87,14 @@ function Boxes(x,y,w,h){
         pop();
     }
 
-    this.isOffScreen = function (){
-        let pos = this.body.position;     
-        return (pos.x > windowWidth + 100);
+    this.isOffScreen = function () {
+        let pos = this.body.position;
+        return (pos.y > height + 100);
     }
+    this.removeFromWorld = function () {
+        World.remove(world, this.body);
+    }
+
 }
 
 //Circles
@@ -97,7 +102,7 @@ function Circle(x,y,r){
     this.r=r;
     let options = {
         friction:0,
-        restitution:1.5,
+        restitution:0,
     }
     this.body = Bodies.circle(x,y, this.r,options);
     World.add(world, this.body);
@@ -106,8 +111,7 @@ function Circle(x,y,r){
         let pos = this.body.position;
         push();
         translate(pos.x, pos.y);
-        strokeWeight(1);
-        stroke(255);
+        strokeWeight(0);
         fill(c);
         ellipse(0,0,this.r*2);
         pop();
@@ -141,6 +145,11 @@ function draw(){
     for(let i = 0; i < box.length; i++){
         //Called show() since declare as a function
         box[i].show();
+        if(box[i].isOffScreen()){
+            box[i].removeFromWorld();
+            box.splice(i,1);
+            i--;
+        }
     }
     // Loops through array of circle
     for(let i = 0; i < circle.length;i++){
