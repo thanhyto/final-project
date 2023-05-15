@@ -5,6 +5,9 @@ let Engine = Matter.Engine,
     World = Matter.World;
 
 let engine = Engine.create();
+//Gravity
+engine.world.gravity.y = 0.15;
+
 let runner = Runner.create({wireframes:false});
 let world = engine.world;
 
@@ -14,7 +17,6 @@ let circle = [];
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
-    frameRate(60);
     rectMode(CENTER);
     Runner.run(runner,engine);
     // ground1 = new Boundary(windowWidth/2, windowHeight, windowWidth, 100);
