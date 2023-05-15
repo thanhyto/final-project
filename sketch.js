@@ -16,15 +16,26 @@ let box = [];
 let boundary = [];
 let circle = [];
 
+//Canvas width, height 
+let canvasDiv = document.getElementById('p5Canvas');
+let canvasWidth = canvasDiv.offsetWidth;
+let canvasHeight = canvasDiv.offsetHeight;
+
 function setup(){
-    createCanvas(windowWidth, windowHeight);
+    let sketchCanvas = createCanvas(canvasWidth,canvasHeight);
+    sketchCanvas.parent('p5Canvas');
     rectMode(CENTER);
     Runner.run(runner,engine);
     // ground1 = new Boundary(windowWidth/2, windowHeight, windowWidth, 100);
     // ground2 = new Boundary(windowWidth/2, windowHeight/2, windowWidth/2, 40)
-    boundary.push(new Boundary(windowWidth*0.4, windowHeight*0.3, windowWidth*0.35, 70, PI/8));
-    boundary.push(new Boundary(windowWidth*0.6, windowHeight*0.7, windowWidth*0.35, 70, -PI/8));
+    boundary.push(new Boundary(canvasWidth*0.4, canvasHeight*0.3, canvasWidth*0.35, 70, PI/8));
+    boundary.push(new Boundary(canvasWidth*0.6, canvasHeight*0.7, canvasWidth*0.35, 70, -PI/8));
     // boundary.push(new Boundary(windowWidth/2, windowHeight, windowWidth, 100,0))
+}
+
+//Resize canvas
+function windowResized(){
+    resizeCanvas(canvasDiv.offsetWidth, canvasDiv.offsetHeight);
 }
 
 //Boundary

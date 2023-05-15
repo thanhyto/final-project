@@ -2,6 +2,20 @@ html,body{
     margin: 0;
     padding: 0;
 }
-canvas{
+/* canvas{
     display:block;
+} */
+.container{
+    display:flex;
+    justify-content: space-around;
+}
+#p5Canvas{
+    min-width:80vw;
+    height: 100vh;
+}
+#options{
+    min-width: 20vw;
+    display:flex;
+    flex-direction:column;
+    align-items: center;
 }
