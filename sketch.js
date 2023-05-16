@@ -5,9 +5,6 @@ let Engine = Matter.Engine,
     World = Matter.World;
 
 let engine = Engine.create();
-//Gravity
-engine.world.gravity.y = 0.055;
-// engine.world.gravity.x = 0.055;
 
 let runner = Runner.create({wireframes:false});
 let world = engine.world;
@@ -20,6 +17,9 @@ let circle = [];
 let canvasDiv = document.getElementById('p5Canvas');
 let canvasWidth = canvasDiv.offsetWidth;
 let canvasHeight = canvasDiv.offsetHeight;
+
+//timer
+let timer = 0;
 
 function setup(){
     let sketchCanvas = createCanvas(canvasWidth,canvasHeight);
@@ -70,7 +70,7 @@ function Boundary(x,y,w,h,a){
 }
 
 //Boxes
-function Boxes(x,y,w,h){
+function Box(x,y,w,h){
     this.w = w;
     this.h = h;
 
@@ -110,6 +110,7 @@ function Boxes(x,y,w,h){
 
 //Circles
 function Circle(x,y,r){
+
     this.r=r;
     let options = {
         friction:0,
@@ -130,7 +131,8 @@ function Circle(x,y,r){
 
     this.isOffScreen = function () {
         let pos = this.body.position;
-        return (pos.y > height + 100);
+        return (pos.y > canvasHeight + 100 || pos.y < -100 ||
+            pos.x > canvasWidth+100 || pos.x < -100);
     }
     this.removeFromWorld = function () {
         World.remove(world, this.body);
@@ -146,12 +148,45 @@ function mousePressed(){
         circle.push(new Circle(mouseX, mouseY, random(20,40)));
     }
 }
+//Sliders ID Event Listener
+const sliders = document.getElementsByClassName('slider');
+const outputs = document.getElementsByClassName('demo');
 
+//Display initial value of sliders
+for(let i = 0; i < outputs.length; i++){
+    outputs[i].innerHTML = sliders[i].value;   
+}
+
+
+//Update value of sliders when sliding
+for(let i = 0; i < sliders.length; i++){
+    sliders[i].addEventListener('click', e => {
+        console.log(e.target.id);
+        console.log(e.target.value);
+        switch(e.target.id){
+            case 'gravityY':
+                engine.world.gravity.y = e.target.value;
+                break;
+            case 'gravityX':
+                engine.world.gravity.x = e.target.value;
+                break;
+
+        }
+    });
+    sliders[i].oninput = function(){
+        outputs[i].innerHTML = sliders[i].value;
+    }
+}
+function drawBox(){
+    box.push(new Box(random(canvasWidth),random(canvasHeight),random(20,50),random(20,30)));
+}
+function drawCircle(){
+    circle.push(new Circle(random(canvasWidth), random(canvasHeight), random(5,20)));
+}
 function draw(){
     background(220);
-    // box.push(new Boxes(windowWidth/2,100,random(20,50),random(20,50)));
-    circle.push(new Circle(random(windowWidth), 0, random(5,10)));
-    
+    drawBox();
+    drawCircle();
     // Loops through the array of boxes and show the objects
     for(let i = 0; i < box.length; i++){
         //Called show() since declare as a function
@@ -175,10 +210,11 @@ function draw(){
     for(let i = 0; i<boundary.length;i++){
         boundary[i].show();
     }
-    console.log(circle.length, world.bodies.length);
+    // Comparing objects in physical world and visual
+    // console.log(circle.length, world.bodies.length);
     
     //Draw the ground
     // ground1.show();
-    // ground2.show();
-   
+    // ground2.show();  
 }
+
