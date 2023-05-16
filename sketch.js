@@ -178,10 +178,24 @@ for(let i = 0; i < sliders.length; i++){
     }
 }
 function drawBox(){
-    box.push(new Box(random(canvasWidth),random(canvasHeight),random(20,50),random(20,30)));
+    //If gravity y < 0, spawn objects at the bottom of the canvas
+    if(engine.world.gravity.y < 0){
+        box.push(new Box(random(canvasWidth),canvasHeight,random(20,50),random(20,30)));
+    }
+    //Else, spawn at the top of the canvas
+    else{
+        box.push(new Box(random(canvasWidth),0,random(20,50),random(20,30)));
+    }
 }
 function drawCircle(){
-    circle.push(new Circle(random(canvasWidth), random(canvasHeight), random(5,20)));
+    //If gravity y < 0, spawn objects at the bottom of the canvas
+    if(engine.world.gravity.y < 0){
+        circle.push(new Circle(random(canvasWidth), canvasHeight, random(5,20)));
+    }
+    else{
+        circle.push(new Circle(random(canvasWidth), 0, random(5,20)));
+    }
+    // circle.push(new Circle(random(canvasWidth), random(canvasHeight), random(5,20)));
 }
 function draw(){
     background(220);
