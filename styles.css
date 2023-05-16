@@ -20,6 +20,9 @@ canvas{
     display:flex;
     flex-direction:column;
 }
+h1{
+    margin-left: 10px;
+}
 .options{
     margin: 10px;
 }

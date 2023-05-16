@@ -21,6 +21,19 @@ let canvasHeight = canvasDiv.offsetHeight;
 //timer
 let timer = 0;
 
+//Rate control
+function rateControl(){
+    //Get all the radio inputs for rate
+    let radio = document.querySelectorAll("input[name='rate']");
+    for(const radioButton of radio){
+        if(radioButton.checked){
+            let rate = radioButton.value;
+            return rate;
+            }
+        }
+}
+
+
 function setup(){
     let sketchCanvas = createCanvas(canvasWidth,canvasHeight);
     sketchCanvas.parent('p5Canvas');
@@ -142,7 +155,7 @@ function Circle(x,y,r){
 function mousePressed(){
     let num = random(-1,1);
     if(num > 0){
-        box.push(new Boxes(mouseX,mouseY,random(20,50),random(20,50)));
+        box.push(new Box(mouseX,mouseY,random(20,50),random(20,50)));
     }
     else{
         circle.push(new Circle(mouseX, mouseY, random(20,40)));
@@ -199,8 +212,32 @@ function drawCircle(){
 }
 function draw(){
     background(220);
-    drawBox();
-    drawCircle();
+    switch(rateControl()){
+        case 'slow':
+            if(millis() >= 300+timer){
+                drawBox();
+                drawCircle();
+                timer = millis()
+            }
+            break;
+        case 'default':
+            if(millis() >= 100+timer){
+                drawBox();
+                drawCircle();
+                timer = millis()
+            }
+            break;
+        case 'fast':
+            if(millis() >= 5+timer){
+                drawBox();
+                drawCircle();
+                timer = millis()
+            }
+            break;
+    }
+
+    
+
     // Loops through the array of boxes and show the objects
     for(let i = 0; i < box.length; i++){
         //Called show() since declare as a function
@@ -224,11 +261,5 @@ function draw(){
     for(let i = 0; i<boundary.length;i++){
         boundary[i].show();
     }
-    // Comparing objects in physical world and visual
-    // console.log(circle.length, world.bodies.length);
-    
-    //Draw the ground
-    // ground1.show();
-    // ground2.show();  
 }
 
