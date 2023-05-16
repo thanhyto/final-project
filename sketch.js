@@ -84,11 +84,11 @@ function Boundary(x,y,w,h,a){
 }
 
 //Boxes
-function Box(x,y,w,h, rectFric, rectRest){
+function Box(x,y,w,h, rectFric){
     this.w = w;
     this.h = h;
     this.rectFric = rectFric;
-    this.rectRest = rectRest;
+    // this.rectRest = rectRest;
 
     let options = {
         friction: 0,
@@ -124,15 +124,14 @@ function Box(x,y,w,h, rectFric, rectRest){
 }
 
 //Circles
-function Circle(x,y,r, cirFric, cirRest){
+function Circle(x,y,cirSize, cirFric){
     this.cirFric = cirFric;
-    this.cirRest = cirRest;
-    this.r=r;
+    this.cirSize = cirSize;
     let options = {
         friction:cirFric,
         // restitution:cirRest,
     }
-    this.body = Bodies.circle(x,y, this.r,options);
+    this.body = Bodies.circle(x,y, this.cirSize,options);
 
     World.add(world, this.body);
     let c = color(random(255), random(255), random(255));
@@ -142,7 +141,7 @@ function Circle(x,y,r, cirFric, cirRest){
         translate(pos.x, pos.y);
         strokeWeight(0);
         fill(c);
-        ellipse(0,0,this.r*2);
+        ellipse(0,0,this.cirSize*2);
         pop();
     }
 
@@ -159,10 +158,10 @@ function Circle(x,y,r, cirFric, cirRest){
 function mousePressed(){
     let num = random(-1,1);
     if(num > 0){
-        box.push(new Box(mouseX,mouseY,random(20,50),random(20,50), rectFric, rectRest));
+        box.push(new Box(mouseX,mouseY,random(20,50),random(20,50), rectFric));
     }
     else{
-        circle.push(new Circle(mouseX, mouseY, random(20,40), cirFric, cirRest));
+        circle.push(new Circle(mouseX, mouseY, random(5,20), cirFric));
     }
 }
 //Sliders ID Event Listener
@@ -176,9 +175,8 @@ for(let i = 0; i < outputs.length; i++){
 
 //Friction, Restitution inputs
 let cirFric = 0;
-// let cirRest = 0;
 let rectFric = 0;
-// let rectRest = 0;
+
 //Update value of sliders when sliding
 for(let i = 0; i < sliders.length; i++){
     sliders[i].addEventListener('click', e => {
@@ -194,15 +192,9 @@ for(let i = 0; i < sliders.length; i++){
             case 'cirFric':
                 cirFric = e.target.value;
                 break;
-            // case 'cirRest':
-            //     cirRest = e.target.value;
-            //     break;
             case 'rectFric':
                 rectFric = e.target.value;
                 break;
-            // case 'rectRest':
-            //     rectRest = e.target.value;
-            //     break;
         }
     });
     sliders[i].oninput = function(){
@@ -212,20 +204,20 @@ for(let i = 0; i < sliders.length; i++){
 function drawBox(){
     //If gravity y < 0, spawn objects at the bottom of the canvas
     if(engine.world.gravity.y < 0){
-        box.push(new Box(random(canvasWidth),canvasHeight,random(20,50),random(20,30), rectFric, rectRest));
+        box.push(new Box(random(canvasWidth),canvasHeight,random(20,50),random(20,30), rectFric));
     }
     //Else, spawn at the top of the canvas
     else{
-        box.push(new Box(random(canvasWidth),0,random(20,50),random(20,30), rectFric, rectRest));
+        box.push(new Box(random(canvasWidth),0,random(20,50),random(20,30), rectFric));
     }
 }
 function drawCircle(){
     //If gravity y < 0, spawn objects at the bottom of the canvas
     if(engine.world.gravity.y < 0){
-        circle.push(new Circle(random(canvasWidth), canvasHeight, random(5,20), cirFric, cirRest));
+        circle.push(new Circle(random(canvasWidth), canvasHeight, random(5,20), cirFric));
     }
     else{
-        circle.push(new Circle(random(canvasWidth), 0, random(5,20), cirFric, cirRest));
+        circle.push(new Circle(random(canvasWidth), 0, random(5,20), cirFric));
     }
     // circle.push(new Circle(random(canvasWidth), random(canvasHeight), random(5,20)));
 }
@@ -243,7 +235,6 @@ function drawObject(){
 
 function draw(){
     background(220);
-    Engine.update(this.engine);
     switch(rateControl()){
         case 'slow':
             if(millis() >= 300+timer){
