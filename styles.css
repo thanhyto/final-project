@@ -49,15 +49,16 @@ p{
     color: var(--violet);
 }
 span, label{
+    font-weight:500;
     color:var(--violet);
 }
 .opt{
     font-weight: 800;
-    font-size:1.25rem;
+    font-size: 1.25rem;
     color: var(--text);
 }
 .addon{
-    font-weight: 400;
+    font-weight: 800;
     color: var(--text);
 }
 input{
