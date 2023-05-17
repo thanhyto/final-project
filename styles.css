@@ -26,6 +26,10 @@ h1{
 .options{
     margin: 10px;
 }
+/* Options Title */
+span{
+    white-space: pre-line;
+}
 /* Slider */
 
 .slider{

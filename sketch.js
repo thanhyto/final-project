@@ -122,19 +122,39 @@ function Box(x,y,w,h, rectFric){
         World.remove(world, this.body);
     }
 }
+//Circle type check
+function circleType(){
+    const radioType = document.querySelectorAll('input[name="type"]');
+    for(const radioButton of radioType){
+        if(radioButton.checked){
+            // console.log(radioButton.value);
+            return radioButton.value;
+        }
+    }
+}
 
 //Circles
-function Circle(x,y,cirSize, cirFric){
+function Circle(x,y,cirSize, cirFric, cirRest, cirSlop){
     this.cirFric = cirFric;
     this.cirSize = cirSize;
+    this.cirRest = cirRest;
+    this.cirSlop = cirSlop;
     let options = {
         friction:cirFric,
-        // restitution:cirRest,
+        restitution: cirRest,
+        slop: cirSlop
     }
-    this.body = Bodies.circle(x,y, this.cirSize,options);
-
-    World.add(world, this.body);
     let c = color(random(255), random(255), random(255));
+    switch(circleType()){
+        case 'droplet':
+            c = color('blue');
+            break;
+    }
+
+    this.body = Bodies.circle(x,y, this.cirSize,options);
+    World.add(world, this.body);
+    
+
     this.show = function(){
         let pos = this.body.position;
         push();
@@ -158,10 +178,10 @@ function Circle(x,y,cirSize, cirFric){
 function mousePressed(){
     let num = random(-1,1);
     if(num > 0){
-        box.push(new Box(mouseX,mouseY,random(20,50),random(20,50), rectFric));
+        box.push(new Box(mouseX,mouseY,random(20,50),random(20,50), random(0,1)));
     }
     else{
-        circle.push(new Circle(mouseX, mouseY, random(5,20), cirFric));
+        circle.push(new Circle(mouseX, mouseY, random(5,20), random(0,1), random(0,0.5), random(0,1)));
     }
 }
 //Sliders ID Event Listener
@@ -173,7 +193,7 @@ for(let i = 0; i < outputs.length; i++){
     outputs[i].innerHTML = sliders[i].value;   
 }
 
-//Friction, Restitution inputs
+//Friction inputs for objects
 let cirFric = 0;
 let rectFric = 0;
 
@@ -213,13 +233,27 @@ function drawBox(){
 }
 function drawCircle(){
     //If gravity y < 0, spawn objects at the bottom of the canvas
+    let spawnHeight;
     if(engine.world.gravity.y < 0){
-        circle.push(new Circle(random(canvasWidth), canvasHeight, random(5,20), cirFric));
+        // circle.push(new Circle(random(canvasWidth), canvasHeight, random(5,20), cirFric));
+        spawnHeight = canvasHeight;
     }
     else{
-        circle.push(new Circle(random(canvasWidth), 0, random(5,20), cirFric));
+        // circle.push(new Circle(random(canvasWidth), 0, random(5,20), cirFric));
+        spawnHeight = 0;
     }
-    // circle.push(new Circle(random(canvasWidth), random(canvasHeight), random(5,20)));
+    switch(circleType()){
+        case 'droplet':
+            circle.push(new Circle(random(canvasWidth), spawnHeight, 10, 0,0,5));
+            break;
+        case 'ball':
+            circle.push(new Circle(random(canvasWidth), spawnHeight, random(5,20), 0, 0.4,0));
+            break;
+        case 'default':
+            circle.push(new Circle(random(canvasWidth), spawnHeight, random(5,20), cirFric,0,0));
+            break;
+    }
+    
 }
 
 function drawObject(){
@@ -235,6 +269,7 @@ function drawObject(){
 
 function draw(){
     background(220);
+    circleType();
     switch(rateControl()){
         case 'slow':
             if(millis() >= 300+timer){
