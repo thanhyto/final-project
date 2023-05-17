@@ -269,7 +269,7 @@ function drawObject(){
 
 function draw(){
     background(220);
-    circleType();
+    // circleType();
     switch(rateControl()){
         case 'slow':
             if(millis() >= 300+timer){

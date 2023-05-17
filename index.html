@@ -14,7 +14,7 @@
         <div class="sidebar">
             <h1>Options</h1>
             <div class="options">
-                <span>Rate</span>
+                <p class="opt">Rate</p>
                 <input type="radio" name="rate" id="slow" value="slow">
                 <label for="slow">Slow</label>
                 <input type="radio" name="rate" id="default" value="default" checked>
@@ -24,21 +24,21 @@
 
             </div>
             <div class="options">
-                <span>Gravity</span>
+                <p class="opt">Gravity</p>
                 <div class="slidecontainer">
-                    <span>x = </span><span class="demo"></span>
+                    <p>x = <span class="demo"></span></p>
                     <input type="range" min="-1" max="1" value="0" step="0.05" class="slider" id="gravityX">
-                    <span>y = </span><span class="demo"></span>
+                    <p>y = <span class="demo"></span></p>
                     <input type="range" min="-1" max="1" value="1" step="0.05" class="slider" id="gravityY">
                 </div>
             </div>
             <div class="options">
-                <span>Circle</span>
+                <p class="opt">Circle</p>
                 <input type="radio" name="circle" id="cirOn" value="cirOn" checked>
                 <label for="cirOn">On</label>
                 <input type="radio" name="circle" id="cirOff" value="cirOff">
                 <label for="cirOff">Off</label>
-                <p>Type</p>
+                <p class="addon">Type</p>
                 <input type="radio" name="type" id="droplet" value="droplet">
                 <label for="droplet">Droplet</label>
                 <input type="radio" name="type" id="ball" value="ball">
@@ -46,18 +46,18 @@
                 <input type="radio" name="type" id="default" value="default" checked>
                 <label for="default">Default</label>
                 <div class="slidecontainer">
-                    <span>Friction = </span><span class="demo"></span>
+                    <p class="addon">Friction = <span class="demo addon"></span></p>
                     <input type="range" min="0" max="2" value="0" step="0.01" class="slider" id="cirFric">
                 </div>
             </div>
             <div class="options">
-                <span>Rectangle</span>
+                <p class="opt">Rectangle</p>
                 <input type="radio" name="rect" id="rectOn" value="rectOn" checked>
                 <label for="rectOn">On</label>
                 <input type="radio" name="rect" id="rectOff" value="rectOff">
                 <label for="rectOff">Off</label>
                 <div class="slidecontainer">
-                    <span>Friction = </span><span class="demo"></span>
+                    <p class="addon">Friction = <span class="demo addon"></span></p>
                     <input type="range" min="0" max="2" value="0" step="0.01" class="slider" id="rectFric">
                     <!-- <span>Restitution = </span><span class="demo"></span>
                     <input type="range" min="0" max="1" value="0" step="0.01" class="slider" id="rectRest"> -->
