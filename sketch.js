@@ -91,7 +91,7 @@ function Box(x,y,w,h, rectFric){
     // this.rectRest = rectRest;
 
     let options = {
-        friction: 0,
+        friction: rectFric,
         // restitution: 0
     }
     //Create a rectangle starts x,y - width w - height h
