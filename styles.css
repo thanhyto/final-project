@@ -12,6 +12,9 @@
     --almond: #f2e2d2;
     --violet :#9c89b8;
 }
+body{
+    overflow-x:hidden;
+}
 canvas{
     display:block;
 }
